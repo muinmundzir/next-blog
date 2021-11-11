@@ -1,12 +1,14 @@
-import { useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-const categories = [
-  { name: 'Server', slug: 'server' },
-  { name: 'React', slug: 'react' },
-];
+import { getCategories } from '../services';
 
 const Header = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories().then((newCategories) => setCategories(newCategories));
+  }, []);
+
   return (
     <nav className="container mx-auto px-10 mb-8">
       <div className="border-b w-full inline-block border-blue-400 py-8">
