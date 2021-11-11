@@ -1,15 +1,8 @@
 import Head from 'next/head';
 import { PostWidget, PostCard, Categories } from '../components';
+import { getPosts } from '../services';
 
-const posts = [
-  { title: 'Hello Next.js', excerpt: 'This is my first post using Next.js' },
-  {
-    title: 'Learn Tailwind',
-    excerpt: 'Learn tailwind with creating some templates',
-  },
-];
-
-export default function Home() {
+export default function Home({ posts }) {
   return (
     <div className="container mx-auto px-10 mb-8">
       <Head>
@@ -19,7 +12,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <main className="col-span-1 lg:col-span-8">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <PostCard post={post} key={post.title} />
           ))}
         </main>
@@ -32,4 +25,12 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const posts = (await getPosts()) || [];
+
+  return {
+    props: { posts },
+  };
 }
